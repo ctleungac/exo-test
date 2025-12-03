@@ -4,22 +4,25 @@ This diagram summarizes how exo components collaborate to expose ChatGPT-compati
 
 ```mermaid
 flowchart TD
-  CLI[CLI entrypoint (exo/main.py)] --> Node[Node orchestrator]
-  CLI --> API[ChatGPT API server]
-  CLI --> GRPC[Local gRPC server]
-  Node --> Discovery[Discovery modules (UDP/Tailscale/Manual)]
-  Node --> Partition[Partitioning strategy]
-  Node --> Topology[Topology & visualization]
-  Node --> Inference[Inference engine]
-  Node --> Downloads[Shard downloader / model seeding]
+  CLI["CLI entrypoint (exo/main.py)"] --> Node["Node orchestrator"]
+  CLI --> API["ChatGPT API server"]
+  CLI --> GRPC["Local gRPC server"]
+
+  Node --> Discovery["Discovery modules (UDP/Tailscale/Manual)"]
+  Node --> Partition["Partitioning strategy"]
+  Node --> Topology["Topology & visualization"]
+  Node --> Inference["Inference engine"]
+  Node --> Downloads["Shard downloader / model seeding"]
+
   API --> Node
   GRPC <--> Node
-  Discovery --> Peers[Peer handles]
+
+  Discovery --> Peers["Peer handles"]
   Peers --> GRPC
   Topology --> Partition
   Partition --> Inference
   Downloads --> Inference
-  Inference --> Shards[Model shards & tokenizers]
+  Inference --> Shards["Model shards & tokenizers"]
   Inference --> Node
 ```
 
