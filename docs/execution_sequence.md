@@ -6,19 +6,19 @@ The diagram below traces how the `exo` console entry point dispatches work acros
 sequenceDiagram
     autonumber
     actor User
-    participant CLI as exo (console script)
-    participant Run as exo.main.run()
-    participant Loop as configure_uvloop()
-    participant Main as exo.main.main()
-    participant Node as orchestration.node.Node
-    participant Server as networking.grpc.GRPCServer
-    participant Discovery as networking.<discovery>
-    participant API as api.ChatGPTAPI
+    participant CLI as "exo (console script)"
+    participant Run as "exo.main.run()"
+    participant EventLoop as "configure_uvloop()"
+    participant Main as "exo.main.main()"
+    participant Node as "orchestration.node.Node"
+    participant Server as "networking.grpc.GRPCServer"
+    participant Discovery as "networking.<discovery>"
+    participant API as "api.ChatGPTAPI"
 
     User->>CLI: invoke `exo` command
     CLI->>Run: console_scripts entry point
-    Run->>Loop: configure_uvloop()
-    Loop-->>Run: event loop configured
+    Run->>EventLoop: configure_uvloop()
+    EventLoop-->>Run: event loop configured
     Run->>Main: loop.run_until_complete(main())
     Main->>Main: argparse parses command/flags
     Main->>Main: create ShardDownloader and inference engine
